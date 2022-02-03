@@ -1,0 +1,105 @@
+:root {
+	--main-color: #35858b;
+	--dark-color: #072227;
+	--second-color: #4fbdba;
+}
+
+.overview {
+	border: 1px solid var(--dark-color);
+	width: 70%;
+	margin: 0 auto;
+	margin-top: 4rem;
+}
+.overview > section {
+	padding: 1%;
+}
+
+.cv-title {
+	font-size: 2.5rem;
+	background-color: var(--dark-color);
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	padding: 2%;
+	color: white;
+}
+
+.section-wrapper {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-rows: 1fr;
+
+	padding: 2% 3%;
+}
+
+.education h2,
+.work h2 {
+	width: 60%;
+	border-bottom: 1px solid var(--dark-color);
+}
+.card {
+	border: 1px solid var(--dark-color);
+	margin: 1rem 2rem;
+	padding: 0.5rem;
+}
+
+.card h3 {
+	padding: 0.5rem 0;
+}
+.card h3 span {
+	margin-left: 0.5rem;
+}
+.education {
+	grid-column: 1/3;
+	border-right: 1px solid var(--dark-color);
+}
+
+.work {
+	grid-column: 1/3;
+	grid-row: 2;
+	border-right: 1px solid var(--dark-color);
+}
+
+.personal {
+	justify-self: center;
+	grid-column: 3/4;
+	grid-row: 1/3;
+	background-color: var();
+	padding: 0.5rem;
+}
+.personal h3 {
+	padding: 0.5rem 0;
+
+	display: flex;
+	flex-direction: column;
+	font-size: 1rem;
+	font-weight: 300;
+	color: #666;
+}
+.personal h3 span {
+	margin-left: 0.5rem;
+	font-weight: bold;
+	color: var(--dark-color);
+	font-size: 1.2rem;
+
+	display: inline-block;
+}
+
+.personal figure {
+	width: 300px;
+	height: 300px;
+}
+
+.personal figure img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media print {
+	.overview {
+		border: none;
+		width: 100%;
+		margin: 0;
+	}
+}

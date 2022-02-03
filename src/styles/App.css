@@ -1,0 +1,87 @@
+:root {
+	--main-color: #35858b;
+	--dark-color: #072227;
+	--second-color: #4fbdba;
+}
+
+.app-title {
+	min-width: 100%;
+	background-color: var(--dark-color);
+	padding: 1%;
+	color: white;
+	font-weight: 400;
+}
+
+.form {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	grid-auto-rows: 1fr;
+	grid-gap: 1rem;
+}
+
+.form-section {
+	margin: 1rem;
+	padding: 1rem;
+	background-color: var(--main-color);
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.form-item {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	padding: 0.5rem;
+	width: 100%;
+}
+
+.form-item * {
+	cursor: pointer;
+}
+.form-item > label {
+	font-weight: bold;
+}
+
+.form-item > input {
+	border: none;
+	background-color: var(--second-color);
+	border-radius: 1rem;
+	padding: 0.5rem;
+	margin-left: 0.25rem;
+	margin-top: 0.25rem;
+	outline: none;
+	font-size: 1.1rem;
+
+	color: white;
+}
+.form-item > input:hover {
+	background-color: var(--second-color);
+	opacity: 0.8;
+}
+.form-item > input:focus {
+	background-color: white;
+	color: black;
+}
+
+.btn {
+	width: 50%;
+	padding: 0.5rem 1rem;
+	border-radius: 1rem;
+	text-align: center;
+	border: none;
+	font-size: 1.2rem;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 1rem auto;
+	background-color: var(--dark-color);
+	color: white;
+}
+
+.btn-print {
+	width: 20%;
+	display: block;
+}
+.btn:hover {
+	opacity: 0.8;
+}

@@ -1,138 +1,183 @@
-import React, { Component } from 'react';
-import ReactToPrint from 'react-to-print';
+import React, { useState, useRef, useEffect } from 'react';
+
 import uniqid from 'uniqid';
+import { useReactToPrint } from 'react-to-print';
 
 import './styles/App.css';
 import Form from './components/Form';
 import Header from './components/Header';
-import Overview from './components/Overview';
+import { Overview } from './components/Overview';
 import EditBtn from './components/EditBtn';
 import CancelBtn from './components/CancelBtn';
 import Footer from './components/Footer';
+import pic from './pic.png';
 
-export default class App extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			form: {},
-			education: {},
-			jobs: {},
-			image: null,
-			isEditing: false,
-		};
-	}
+const App = () => {
+	const [form, setForm] = useState({});
+	const [education, setEducation] = useState({});
+	const [jobs, setJobs] = useState({});
+	const [image, setImage] = useState(null);
+	const [isEditing, setIsEditing] = useState(false);
+	const [preview, setPreview] = useState(pic);
 
-	handleChange = (e) => {
-		this.setState({
-			form: {
-				...this.state.form,
-				[e.target.name]: e.target.value,
-			},
+	useEffect(() => {
+		if (image) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setPreview(reader.result);
+			};
+
+			reader.readAsDataURL(image);
+		} else {
+			setPreview(pic);
+		}
+	}, [image]);
+
+	const handleChange = (e) => {
+		setForm({
+			...form,
+			[e.target.name]: e.target.value,
 		});
 	};
 
-	handleChangeArr = (e) => {
+	const handleChangeArr = (e) => {
 		let handler = e.target.parentElement.parentElement.lastChild.name;
-		this.setState({
-			[handler]: {
-				...this.state[handler],
+		if (handler === 'education') {
+			setEducation({
+				...education,
 				[e.target.name]: e.target.value,
 				id: uniqid(),
-			},
-		});
+			});
+		} else {
+			setJobs({
+				...jobs,
+				[e.target.name]: e.target.value,
+				id: uniqid(),
+			});
+		}
 	};
 
-	handleSubmitArr = (e) => {
+	const handleSubmitArr = (e) => {
 		e.preventDefault();
-		let array = [e.target.name];
-		if (!this.state[array]) {
+		let array = e.target.name;
+		if ((array === 'education' && !education) || (array === 'jobs' && !jobs)) {
 			alert('Por favor Verifique los datos ingresados');
 			return;
 		}
-		if (!this.state.form[array]) {
-			this.setState({
-				form: {
-					...this.state.form,
-					[e.target.name]: [this.state[array]],
-				},
-				[array]: '',
+		if (array === 'education') {
+			if (!form.education) {
+				setForm({
+					...form,
+					education: [education],
+				});
+			} else {
+				setForm({
+					...form,
+					education: [...form.education, education],
+				});
+			}
+			setEducation('');
+		} else {
+			if (!form.jobs) {
+				setForm({
+					...form,
+					jobs: [jobs],
+				});
+			} else {
+				setForm({
+					...form,
+					jobs: [...form.jobs, jobs],
+				});
+			}
+
+			setJobs('');
+		}
+	};
+
+	const handleEdit = () => {
+		setIsEditing(true);
+	};
+
+	const cancelEdit = () => {
+		setIsEditing(false);
+	};
+
+	const deleteItem = (id, name) => {
+		if (name === 'education') {
+			let item = form.education.filter((el) => el.id !== id);
+			setForm({
+				...form,
+				education: item,
 			});
 		} else {
-			this.setState({
-				form: {
-					...this.state.form,
-					[e.target.name]: [...this.state.form[array], this.state[array]],
-				},
-				[array]: '',
+			let item = form.jobs.filter((el) => el.id !== id);
+			setForm({
+				...form,
+				jobs: item,
 			});
 		}
 	};
 
-	handleEdit = () => {
-		this.setState({ isEditing: true });
+	const editContent = (id, name) => {
+		deleteItem(id, name);
+
+		if (name === 'education') {
+			let item = form.education.find((el) => el.id === id);
+			setEducation(item);
+		} else {
+			let item = form.jobs.find((el) => el.id === id);
+			setJobs(item);
+		}
+		setIsEditing(false);
 	};
 
-	cancelEdit = () => {
-		this.setState({ isEditing: false });
+	const handleImage = (e) => {
+		const file = e.target.files[0];
+		if (file && file.type.substr(0, 5) === 'image') {
+			setImage(file);
+		} else {
+			image(pic);
+		}
 	};
+	const componentRef = useRef();
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
+	});
 
-	deleteItem = (id, name) => {
-		let item = this.state.form[name].filter((el) => el.id !== id);
-		this.setState({
-			form: {
-				...this.state.form,
-				[name]: item,
-			},
-		});
-	};
+	return (
+		<div className="app">
+			<Header />
 
-	editContent = (id, name) => {
-		this.deleteItem(id, name);
-		let item = this.state.form[name].find((el) => el.id === id);
-		this.setState({
-			[name]: item,
-			isEditing: false,
-		});
-	};
+			<Form
+				handleChange={handleChange}
+				form={form}
+				handleChangeArr={handleChangeArr}
+				handleSubmitArr={handleSubmitArr}
+				education={education}
+				jobs={jobs}
+				isEditing={isEditing}
+				handleImage={handleImage}
+			/>
+			<Overview
+				form={form}
+				isEditing={isEditing}
+				editContent={editContent}
+				deleteItem={deleteItem}
+				ref={componentRef}
+				image={preview}
+			/>
 
-	render() {
-		const { form, education, jobs, isEditing } = this.state;
-		return (
-			<div className="app">
-				<Header />
+			{isEditing && <CancelBtn cancelEdit={cancelEdit} />}
+			{!isEditing && <EditBtn handleEdit={handleEdit} isEditing={isEditing} />}
 
-				<Form
-					handleChange={this.handleChange}
-					form={form}
-					handleChangeArr={this.handleChangeArr}
-					handleSubmitArr={this.handleSubmitArr}
-					education={education}
-					jobs={jobs}
-					isEditing={isEditing}
-				/>
-				<Overview
-					ref={(el) => (this.componentRef = el)}
-					form={form}
-					isEditing={isEditing}
-					editContent={this.editContent}
-					deleteItem={this.deleteItem}
-				/>
+			{!isEditing && (
+				<button className="btn btn-print" onClick={handlePrint}>
+					Imprimir
+				</button>
+			)}
+			<Footer />
+		</div>
+	);
+};
 
-				{isEditing && <CancelBtn cancelEdit={this.cancelEdit} />}
-				{!isEditing && (
-					<EditBtn handleEdit={this.handleEdit} isEditing={isEditing} />
-				)}
-
-				{!isEditing && (
-					<ReactToPrint
-						trigger={() => {
-							return <button className="btn btn-print">Imprimir</button>;
-						}}
-						content={() => this.componentRef}
-					/>
-				)}
-				<Footer />
-			</div>
-		);
-	}
-}
+export default App;

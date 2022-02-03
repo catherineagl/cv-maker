@@ -1,7 +1,7 @@
 export default function Footer() {
 	return (
 		<footer>
-			Created by
+			Creador por
 			<a
 				href="https://github.com/catherineagl/"
 				target="_blank"

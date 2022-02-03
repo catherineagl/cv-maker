@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class CancelBtn extends Component {
-	render() {
-		return (
-			<button
-				className="btn btn-print"
-				onClick={(e) => {
-					e.preventDefault();
-					this.props.cancelEdit();
-				}}
-			>
-				Cancelar Edición
-			</button>
-		);
-	}
+export default function CancelBtn(props) {
+	return (
+		<button
+			className="btn btn-print"
+			onClick={(e) => {
+				e.preventDefault();
+				props.cancelEdit();
+			}}
+		>
+			Cancelar Edición
+		</button>
+	);
 }

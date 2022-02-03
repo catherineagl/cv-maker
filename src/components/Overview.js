@@ -49,6 +49,26 @@ export default class Overview extends Component {
 												) || '-'}
 											</span>
 										</h3>
+										{this.props.isEditing && (
+											<div className="btn-actions">
+												<button
+													className="btn danger"
+													onClick={() => {
+														this.props.deleteItem(el.id, 'education');
+													}}
+												>
+													Eliminar
+												</button>
+												<button
+													className="btn info"
+													onClick={() =>
+														this.props.editContent(el.id, 'education')
+													}
+												>
+													Editar
+												</button>
+											</div>
+										)}
 									</div>
 								);
 							})}
@@ -82,6 +102,24 @@ export default class Overview extends Component {
 												) || '-'}
 											</span>
 										</h3>
+										{this.props.isEditing && (
+											<div className="btn-actions">
+												<button
+													className="btn danger"
+													onClick={() => {
+														this.props.deleteItem(el.id, 'jobs');
+													}}
+												>
+													Eliminar
+												</button>
+												<button
+													className="btn info"
+													onClick={() => this.props.editContent(el.id, 'jobs')}
+												>
+													Editar
+												</button>
+											</div>
+										)}
 									</div>
 								);
 							})}

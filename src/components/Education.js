@@ -12,7 +12,7 @@ export default class Education extends Component {
 						type="text"
 						id="school"
 						name="school"
-						value={this.props.form.school}
+						value={this.props.form.school || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>
@@ -22,7 +22,7 @@ export default class Education extends Component {
 						type="text"
 						id="degreeTitle"
 						name="degreeTitle"
-						value={this.props.form.degreeTitle}
+						value={this.props.form.degreeTitle || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>
@@ -33,7 +33,7 @@ export default class Education extends Component {
 						type="text"
 						id="schoolCity"
 						name="schoolCity"
-						value={this.props.form.schoolCity}
+						value={this.props.form.schoolCity || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>
@@ -45,7 +45,7 @@ export default class Education extends Component {
 						type="date"
 						id="degreeDateStart"
 						name="degreeDateStart"
-						value={this.props.form.degreeDateStart}
+						value={this.props.form.degreeDateStart || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 
@@ -54,7 +54,7 @@ export default class Education extends Component {
 						type="date"
 						id="degreeDateEnd"
 						name="degreeDateEnd"
-						value={this.props.form.degreeDateEnd}
+						value={this.props.form.degreeDateEnd || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>

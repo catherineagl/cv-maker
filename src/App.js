@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import ReactToPrint from 'react-to-print';
+import uniqid from 'uniqid';
 
 import './styles/App.css';
 import Form from './components/Form';
 import Header from './components/Header';
 import Overview from './components/Overview';
-import pic from './pic.png';
+import EditBtn from './components/EditBtn';
+import CancelBtn from './components/CancelBtn';
+import Footer from './components/Footer';
 
 export default class App extends Component {
 	constructor(props) {
@@ -15,6 +18,7 @@ export default class App extends Component {
 			education: {},
 			jobs: {},
 			image: null,
+			isEditing: false,
 		};
 	}
 
@@ -33,6 +37,7 @@ export default class App extends Component {
 			[handler]: {
 				...this.state[handler],
 				[e.target.name]: e.target.value,
+				id: uniqid(),
 			},
 		});
 	};
@@ -63,8 +68,35 @@ export default class App extends Component {
 		}
 	};
 
+	handleEdit = () => {
+		this.setState({ isEditing: true });
+	};
+
+	cancelEdit = () => {
+		this.setState({ isEditing: false });
+	};
+
+	deleteItem = (id, name) => {
+		let item = this.state.form[name].filter((el) => el.id !== id);
+		this.setState({
+			form: {
+				...this.state.form,
+				[name]: item,
+			},
+		});
+	};
+
+	editContent = (id, name) => {
+		this.deleteItem(id, name);
+		let item = this.state.form[name].find((el) => el.id === id);
+		this.setState({
+			[name]: item,
+			isEditing: false,
+		});
+	};
+
 	render() {
-		const { form, education, jobs } = this.state;
+		const { form, education, jobs, isEditing } = this.state;
 		return (
 			<div className="app">
 				<Header />
@@ -76,14 +108,30 @@ export default class App extends Component {
 					handleSubmitArr={this.handleSubmitArr}
 					education={education}
 					jobs={jobs}
+					isEditing={isEditing}
 				/>
-				<Overview ref={(el) => (this.componentRef = el)} form={form} />
-				<ReactToPrint
-					trigger={() => {
-						return <button className="btn btn-print">Imprimir</button>;
-					}}
-					content={() => this.componentRef}
+				<Overview
+					ref={(el) => (this.componentRef = el)}
+					form={form}
+					isEditing={isEditing}
+					editContent={this.editContent}
+					deleteItem={this.deleteItem}
 				/>
+
+				{isEditing && <CancelBtn cancelEdit={this.cancelEdit} />}
+				{!isEditing && (
+					<EditBtn handleEdit={this.handleEdit} isEditing={isEditing} />
+				)}
+
+				{!isEditing && (
+					<ReactToPrint
+						trigger={() => {
+							return <button className="btn btn-print">Imprimir</button>;
+						}}
+						content={() => this.componentRef}
+					/>
+				)}
+				<Footer />
 			</div>
 		);
 	}

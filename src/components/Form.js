@@ -17,11 +17,13 @@ export default class Form extends Component {
 					handleChangeArr={this.props.handleChangeArr}
 					handleSubmitArr={this.props.handleSubmitArr}
 					form={this.props.education}
+					isEditing={this.props.isEditing}
 				/>
 				<Jobs
 					handleChangeArr={this.props.handleChangeArr}
 					handleSubmitArr={this.props.handleSubmitArr}
 					form={this.props.jobs}
+					isEditing={this.props.isEditing}
 				/>
 			</form>
 		);

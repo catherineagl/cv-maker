@@ -12,7 +12,7 @@ export default class Jobs extends Component {
 						type="text"
 						id="company"
 						name="company"
-						value={this.props.form.company}
+						value={this.props.form.company || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>
@@ -22,7 +22,7 @@ export default class Jobs extends Component {
 						type="text"
 						id="companyPosition"
 						name="companyPosition"
-						value={this.props.form.companyPosition}
+						value={this.props.form.companyPosition || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>
@@ -33,7 +33,7 @@ export default class Jobs extends Component {
 						type="text"
 						id="companyCity"
 						name="companyCity"
-						value={this.props.form.companyCity}
+						value={this.props.form.companyCity || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>
@@ -45,7 +45,7 @@ export default class Jobs extends Component {
 						type="date"
 						id="workDateStart"
 						name="workDateStart"
-						value={this.props.form.workDateStart}
+						value={this.props.form.workDateStart || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 
@@ -54,7 +54,7 @@ export default class Jobs extends Component {
 						type="date"
 						id="workDateEnd"
 						name="workDateEnd"
-						value={this.props.form.workDateEnd}
+						value={this.props.form.workDateEnd || ''}
 						onChange={this.props.handleChangeArr}
 					></input>
 				</div>

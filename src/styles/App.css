@@ -4,14 +4,23 @@
 	--second-color: #4fbdba;
 }
 
-.app-title {
+.app-title,
+footer {
 	min-width: 100%;
 	background-color: var(--dark-color);
 	padding: 1%;
 	color: white;
 	font-weight: 400;
 }
-
+footer {
+	text-align: center;
+	margin-top: 4rem;
+}
+footer a {
+	text-decoration: none;
+	color: var(--second-color);
+	margin-left: 0.3rem;
+}
 .form {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -84,4 +93,19 @@
 }
 .btn:hover {
 	opacity: 0.8;
+}
+
+.btn-actions {
+	display: flex;
+	padding: 0.5rem;
+}
+
+.danger {
+	width: 40%;
+	background-color: red;
+}
+
+.info {
+	width: 40%;
+	background-color: lightblue;
 }
